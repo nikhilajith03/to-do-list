@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles\main.css" />
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Todo</title>
+  </head>
+  <body>
+    <section class="todo">
+      <h2>To-do list</h2>
+      <div class="input">
+        <input
+          type="text"
+          class="input-field"
+          id="todoInput"
+          placeholder="Add a new todo"
+        />
+        <button class="btn" id="add">Add</button>
+      </div>
+      <ul class="scroll">
+        
+      </ul>
+      <div>
+        <hr class="counter" />
+        <div class="counter-container">
+          <p><span id="todoCount">0</span> items total</p>
+          <button id="deleteButton">Delete All</button>
+        </div>
+      </div>
+    </section>
+    <script >
+      var input = [];
+      $(document).ready(function(){
+      
+        $("#add").click(function(){
+          var inputValue = $("#todoInput").val();
+          input.push(inputValue);
+          taskID=input.length;
+          if(inputValue!==""){
+            $(".scroll").append(`<li id =task-${taskID}><span>${inputValue}<button class="deleteBtn" data-id=${taskID}>Delete</button></span></li>`);
+            $("#todoInput").val("");
+          }  
+            $("#todoCount").html(input.length)
+        })
+        $("#deleteButton") .click(function(){
+          $(".scroll").html("")
+          $("#todoCount").html("0")
+          input.length=0;
+        })
+        
+        $(document).on('click','.deleteBtn',function(){
+          let taskID = $(this).data('id');
+          $(`#task-${taskID}`).remove();
+          input.splice(taskID,1);
+          input.length-=1;
+          $("#todoCount").html(input.length)
+        })
+      })
+    </script>
+  </body>
+</html>
